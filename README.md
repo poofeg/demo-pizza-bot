@@ -1,5 +1,7 @@
 # demo-pizza-bot
-Демонстрация Telegram-бота с хостингом в Yandex Cloud Functions.
+Демонстрация Telegram-бота для заказа пиццы.
+Хранит заказы в Google Таблицах.
+Пример документа: https://docs.google.com/spreadsheets/d/1KvldMGQbLdQa6ASr4vSfjxteX88sJtJOpC8jvlK6XF0/edit?usp=sharing
 
 ## Настройка бота
 Настройки включаются в себя:
