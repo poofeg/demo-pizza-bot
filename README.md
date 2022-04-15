@@ -1,4 +1,5 @@
 # demo-pizza-bot
+Демонстрация Telegram-бота с хостингом в Yandex Cloud Functions.
 
 ## Настройка бота
 Настройки включаются в себя:
@@ -27,3 +28,4 @@ docker run -it --rm --env-file=.env -v `pwd`/var:/app/var  demo-pizza-bot
 Можно воспользоваться руководством
 [Как создать бота в Telegram](https://cloud.yandex.ru/docs/functions/tutorials/telegram-bot-serverless)
 из документации, с поправкой на язык Python.
+Для подготовки zip-архива можно использовать скрипт `make_dist`.
