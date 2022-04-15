@@ -1,8 +1,9 @@
+import json
 import logging
 import os
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Optional
+from typing import Optional, Any
 
 import gspread_asyncio
 from aiogram import Bot, Dispatcher, executor, types
@@ -17,9 +18,6 @@ API_TOKEN = os.getenv('API_TOKEN')
 SERVICE_ACCOUNT_FILENAME = os.getenv('SERVICE_ACCOUNT_FILENAME')
 SPREADSHEET_ID = os.getenv('SPREADSHEET_ID')
 ADMIN_CHAT_ID = int(os.getenv('ADMIN_CHAT_ID'))
-
-# Configure logging
-logging.basicConfig(level=logging.DEBUG)
 
 # Initialize bot and dispatcher
 bot = Bot(token=API_TOKEN)
@@ -158,7 +156,24 @@ async def process_welcome(message: types.Message) -> None:
     await send_welcome(message)
 
 
+async def handler(event: dict[str, Any], context: Any) -> dict:
+    """Yandex.Cloud functions handler."""
+    logging.getLogger().setLevel(logging.DEBUG)
+    if event['httpMethod'] == 'POST':
+        update = json.loads(event['body'])
+        logging.debug('Update: %s', update)
+        Dispatcher.set_current(dp)
+        Bot.set_current(dp.bot)
+        update = types.Update.to_object(update)
+        await init_gspread()
+        await dp.process_update(update)
+        return {'statusCode': 200, 'body': 'ok'}
+    return {'statusCode': 405}
+
+
 def run() -> None:
+    logging.basicConfig(level=logging.DEBUG)
+
     async def on_startup(dispatcher: Dispatcher) -> None:
         await init_gspread()
     executor.start_polling(dp, on_startup=on_startup, skip_updates=True)

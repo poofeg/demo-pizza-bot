@@ -1,0 +1,9 @@
+#!/bin/sh
+
+mkdir -p dist/src
+rm dist/bot.zip
+poetry export --output dist/src/requirements.txt
+cp main.py dist/src
+cp var/*.json dist/src
+cd dist/src || exit
+zip -r ../bot.zip .
