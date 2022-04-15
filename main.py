@@ -55,16 +55,20 @@ def get_creds() -> Credentials:
 
 
 async def init_gspread() -> None:
+    global ws_orders
+    if ws_orders:
+        return
+
     agcm = gspread_asyncio.AsyncioGspreadClientManager(get_creds)
     agc = await agcm.authorize()
     ss = await agc.open_by_key(SPREADSHEET_ID)
+
     ws_menu = await ss.get_worksheet(1)
     ws_values = await ws_menu.get_values()
     for row in ws_values[1:]:
         item = MenuItem(name=row[0], photo=row[1])
         menu.append(item)
 
-    global ws_orders
     ws_orders = await ss.get_worksheet(0)
 
 
