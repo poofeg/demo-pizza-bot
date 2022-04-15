@@ -18,6 +18,7 @@ API_TOKEN = os.getenv('API_TOKEN')
 SERVICE_ACCOUNT_FILENAME = os.getenv('SERVICE_ACCOUNT_FILENAME')
 SPREADSHEET_ID = os.getenv('SPREADSHEET_ID')
 ADMIN_CHAT_ID = int(os.getenv('ADMIN_CHAT_ID'))
+LOG_LEVEL = os.getenv('LOG_LEVEL', 'DEBUG')
 
 # Initialize bot and dispatcher
 bot = Bot(token=API_TOKEN)
@@ -162,7 +163,7 @@ async def process_welcome(message: types.Message) -> None:
 
 async def handler(event: dict[str, Any], context: Any) -> dict:
     """Yandex.Cloud functions handler."""
-    logging.getLogger().setLevel(logging.DEBUG)
+    logging.getLogger().setLevel(LOG_LEVEL)
     if event['httpMethod'] == 'POST':
         update = json.loads(event['body'])
         logging.debug('Update: %s', update)
@@ -176,7 +177,7 @@ async def handler(event: dict[str, Any], context: Any) -> dict:
 
 
 def run() -> None:
-    logging.basicConfig(level=logging.DEBUG)
+    logging.basicConfig(level=LOG_LEVEL)
 
     async def on_startup(dispatcher: Dispatcher) -> None:
         await init_gspread()
