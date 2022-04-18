@@ -14,6 +14,10 @@
 * Установить Poetry: https://python-poetry.org/docs/#installation
 * Выполнить команды:
 ```shell
+git clone https://github.com/poofeg/demo-pizza-bot.git
+cd demo-pizza-bot
+cp example.env .env
+editor .env
 poetry install
 poetry run python -m main
 ```
@@ -22,8 +26,12 @@ poetry run python -m main
 * Установить Docker: https://docs.docker.com/desktop/
 * Выполнить команды:
 ```shell
+git clone https://github.com/poofeg/demo-pizza-bot.git
+cd demo-pizza-bot
+cp example.env .env
+editor .env
 docker build -t demo-pizza-bot .
-docker run -it --rm --env-file=.env -v `pwd`/var:/app/var  demo-pizza-bot
+docker run -it --rm --env-file=.env -v `pwd`/var:/app/var demo-pizza-bot
 ```
 
 ## Хостинг в Yandex Cloud Functions
